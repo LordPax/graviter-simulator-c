@@ -1,5 +1,5 @@
-#ifndef GRAVITER
-#define GRAVITER
+#ifndef GRAVITER_H
+#define GRAVITER_H
 
 #include <stdio.h>
 #include <stdlib.h>
