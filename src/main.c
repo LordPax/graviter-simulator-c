@@ -4,102 +4,102 @@
 //gcc *.c -o graviter $(sdl2-config --cflags --libs) -lSDL-ttf -lm
 
 int main(int argc, char **argv){
-	SDL_Window *window = NULL;
-	SDL_Renderer *rende = NULL;
-	SDL_bool cont = SDL_TRUE;
+    SDL_Window *window = NULL;
+    SDL_Renderer *rende = NULL;
+    SDL_bool cont = SDL_TRUE;
 
-	int nb;
-	int masse;
-	unsigned int frameLimit;
-	_Bool pause = true;
+    int nb;
+    int masse;
+    unsigned int frameLimit;
+    _Bool pause = true;
 
-	if (argc != 3)
-		exit(0);
+    if (argc != 3)
+        exit(0);
 
-	nb = atoi(argv[1]);
-	masse = atoi(argv[2]);
-	printf("Graviter : nombre de planetes : %d\n", nb);
-	printf("Graviter : masse de chaque planete : %d\n", masse);
+    nb = atoi(argv[1]);
+    masse = atoi(argv[2]);
+    printf("Graviter : nombre de planetes : %d\n", nb);
+    printf("Graviter : masse de chaque planete : %d\n", masse);
 
-	Planete *planete = malloc(sizeof(Planete) * nb); // initialisation des planetes
+    Planete *planete = malloc(sizeof(Planete) * nb); // initialisation des planetes
 
-	if(planete == NULL)
-		exit(1);
+    if(planete == NULL)
+        exit(1);
 
-	Init_Planete(planete, nb, masse);
+    Init_Planete(planete, nb, masse);
 
-	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) // lancer SDL
-		SDL_Exit("Initiatlisation de la SDL");
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) // lancer SDL
+        SDL_Exit("Initiatlisation de la SDL");
 
-	window = SDL_CreateWindow("Graviter simulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, W, H, 0);
-	if(window == NULL)
-		SDL_Exit("Impossible de créer la fenètre");
+    window = SDL_CreateWindow("Graviter simulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, W, H, 0);
+    if(window == NULL)
+        SDL_Exit("Impossible de créer la fenètre");
 
-	rende = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-	if(rende == NULL)
-		SDL_Exit("Impossible de créer le rendue");
+    rende = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+    if(rende == NULL)
+        SDL_Exit("Impossible de créer le rendue");
 
-	frameLimit = SDL_GetTicks() + LIMIT;
-	
-	while(cont){
-		limitFps(frameLimit);
-		
-		SDL_Event event;
-		SDL_SetRenderDrawColor(rende, 255, 255, 255, SDL_ALPHA_OPAQUE);
-		SDL_RenderClear(rende);
+    frameLimit = SDL_GetTicks() + LIMIT;
+    
+    while(cont){
+        limitFps(frameLimit);
+        
+        SDL_Event event;
+        SDL_SetRenderDrawColor(rende, 255, 255, 255, SDL_ALPHA_OPAQUE);
+        SDL_RenderClear(rende);
 
-		Spawn_Planete(planete, nb, rende);
+        Spawn_Planete(planete, nb, rende);
 
-		if(pause)
-			for (int i = 0; i < nb; ++i)
-				if(planete[i].exist)
-					Update_Planete(&planete[i], planete, nb);
+        if(pause)
+            for (int i = 0; i < nb; ++i)
+                if(planete[i].exist)
+                    Update_Planete(&planete[i], planete, nb);
 
-		SDL_RenderPresent(rende);
-		frameLimit = SDL_GetTicks() + LIMIT;
+        SDL_RenderPresent(rende);
+        frameLimit = SDL_GetTicks() + LIMIT;
 
-		while(SDL_PollEvent(&event)){
-			switch(event.type){
-				case SDL_QUIT :
-					cont = SDL_FALSE;
-					printf("Graviter : Programme quiter\n");
-					break;
-				case SDL_KEYDOWN :
-					switch(event.key.keysym.sym){
-						case SDLK_ESCAPE :
-							cont = SDL_FALSE;
-							printf("Graviter : Programme quiter\n");
-							break;
+        while(SDL_PollEvent(&event)){
+            switch(event.type){
+                case SDL_QUIT :
+                    cont = SDL_FALSE;
+                    printf("Graviter : Programme quiter\n");
+                    break;
+                case SDL_KEYDOWN :
+                    switch(event.key.keysym.sym){
+                        case SDLK_ESCAPE :
+                            cont = SDL_FALSE;
+                            printf("Graviter : Programme quiter\n");
+                            break;
 
-						case SDLK_a :
-							pause = !pause;
-							if (pause == false)
-								printf("Graviter : Programme en pause\n");
-							else
-								printf("Graviter : Programme en route\n");
-							break;
+                        case SDLK_a :
+                            pause = !pause;
+                            if (pause == false)
+                                printf("Graviter : Programme en pause\n");
+                            else
+                                printf("Graviter : Programme en route\n");
+                            break;
 
-						// case SDLK_z :
-						// 	pause = !pause;
-						// 	break;
+                        // case SDLK_z :
+                        //     pause = !pause;
+                        //     break;
 
-						// case SDLK_e :
-						// 	pause = !pause;
-						// 	break;
+                        // case SDLK_e :
+                        //     pause = !pause;
+                        //     break;
 
-						// case SDLK_r :
-						// 	pause = !pause;
-						// 	break;
-					}
-					break;
-			}
-		}
-	}
+                        // case SDLK_r :
+                        //     pause = !pause;
+                        //     break;
+                    }
+                    break;
+            }
+        }
+    }
 
-	free(planete);
-	SDL_DestroyRenderer(rende);
-	SDL_DestroyWindow(window);
-	SDL_Quit();
+    free(planete);
+    SDL_DestroyRenderer(rende);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 
-	return EXIT_SUCCESS; //return 0;
+    return EXIT_SUCCESS; //return 0;
 }

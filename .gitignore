@@ -3,4 +3,4 @@ graviter
 Images/
 tags
 src/*.o
-test
+test/
