@@ -1,0 +1,6 @@
+graviter
+*.zip
+Images/
+tags
+src/*.o
+test
