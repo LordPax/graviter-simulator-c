@@ -1,6 +1,6 @@
 #include "../include/graviter.h"
 
-void Init_Planete(Planete *p, int nb, int masse){
+void Init_Planete(Planete *p, int nb, int masse) {
     srand(time(NULL));
     for (int i = 0; i < nb; ++i){
         p[i].x = rand() % W;
@@ -16,14 +16,14 @@ void Init_Planete(Planete *p, int nb, int masse){
     }
 }
 
-void Spawn_Planete(Planete *p, int nb, SDL_Renderer *rende){
+void Spawn_Planete(Planete *p, int nb, SDL_Renderer *rende) {
     SDL_SetRenderDrawColor(rende, 0, 0, 0, SDL_ALPHA_OPAQUE);
     for (int i = 0; i < nb; ++i)
         if(p[i].exist)
             disque(&p[i], rende);
 }
 
-void Update_Planete(Planete *pThis, Planete *p, int nb){
+void Update_Planete(Planete *pThis, Planete *p, int nb) {
     for (int i = 0; i < nb; ++i)
         if(p[i].exist)
             Graviter_Planete(pThis, &p[i]);
@@ -32,15 +32,15 @@ void Update_Planete(Planete *pThis, Planete *p, int nb){
     pThis->y += pThis->vy;
 }
 
-void Graviter_Planete(Planete *pThis, Planete *p){
+void Graviter_Planete(Planete *pThis, Planete *p) {
     int dx = p->x - pThis->x;
     int dy = p->y - pThis->y;
     int dist = dx * dx + dy * dy;
 
-    if(dist != 0){
+    if(dist != 0) {
         int dist2 = sqrt(dist);
-        if(dist2 < (pThis->r + p->r)){
-            if(p->masse < pThis->masse){
+        if(dist2 < (pThis->r + p->r)) {
+            if(p->masse < pThis->masse) {
                 pThis->masse += p->masse;
                 pThis->x = (pThis->x * pThis->masse + p->x * p->masse) / (pThis->masse + p->masse);
                 pThis->y = (pThis->y * pThis->masse + p->y * p->masse) / (pThis->masse + p->masse);
@@ -51,7 +51,7 @@ void Graviter_Planete(Planete *pThis, Planete *p){
                 pThis->r = sqrt(pThis->masse);
             }
         }
-        else{
+        else {
             float force = p->masse / dist;
             float angle = atan2(p->y - pThis->y, p->x - pThis->x);
             float dirx = force * cos(angle);

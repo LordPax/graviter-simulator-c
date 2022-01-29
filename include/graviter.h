@@ -11,12 +11,12 @@
 #define H 650
 #define LIMIT 16
 
-typedef enum exist{
+typedef enum exist {
     false,
     true
 } Exist;
 
-typedef struct Planete{
+typedef struct Planete {
     float x, y; // coordonnée x, y
     float vx, vy; // vitesse vx, vy
     float r; // rayon de la planete

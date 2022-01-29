@@ -3,7 +3,7 @@
 //libsdl-ttf2.0-0 libsdl-ttf2.0-dev
 //gcc *.c -o graviter $(sdl2-config --cflags --libs) -lSDL-ttf -lm
 
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
     SDL_Window *window = NULL;
     SDL_Renderer *rende = NULL;
     SDL_bool cont = SDL_TRUE;
@@ -41,7 +41,7 @@ int main(int argc, char **argv){
 
     frameLimit = SDL_GetTicks() + LIMIT;
     
-    while(cont){
+    while(cont) {
         limitFps(frameLimit);
         
         SDL_Event event;
@@ -58,14 +58,14 @@ int main(int argc, char **argv){
         SDL_RenderPresent(rende);
         frameLimit = SDL_GetTicks() + LIMIT;
 
-        while(SDL_PollEvent(&event)){
-            switch(event.type){
+        while(SDL_PollEvent(&event)) {
+            switch(event.type) {
                 case SDL_QUIT :
                     cont = SDL_FALSE;
                     printf("Graviter : Programme quiter\n");
                     break;
                 case SDL_KEYDOWN :
-                    switch(event.key.keysym.sym){
+                    switch(event.key.keysym.sym) {
                         case SDLK_ESCAPE :
                             cont = SDL_FALSE;
                             printf("Graviter : Programme quiter\n");

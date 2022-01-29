@@ -1,4 +1,4 @@
-CXX=gcc
+CC=gcc
 LIBS=$(shell sdl2-config --libs) -lm
 FLAGS=$(shell sdl2-config --cflags) -W -Wall
 SRC=$(wildcard src/*.c)
@@ -8,10 +8,10 @@ EXEC=graviter
 all : $(EXEC)
 
 $(EXEC) : $(OBJ)
-	$(CXX) $^ -o $@ $(LIBS)
+	$(CC) $^ -o $@ $(LIBS)
 
 %.o : %.c
-	$(CXX) -c $< -o $@ $(FLAGS)
+	$(CC) -c $< -o $@ $(FLAGS)
 
 clean :
 	rm -rf src/*.o
@@ -24,4 +24,4 @@ mrproper : clean
 # $^ ref listes dependances
 
 # main.o : main.cpp
-# 	$(CXX) -c main.cpp
+# 	$(CC) -c main.cpp
