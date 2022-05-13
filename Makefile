@@ -1,6 +1,6 @@
 CC=gcc
 LIBS=$(shell sdl2-config --libs) -lm
-FLAGS=$(shell sdl2-config --cflags) -W -Wall
+FLAGS=$(shell sdl2-config --cflags) -W -Wall -g
 SRC=$(wildcard src/*.c)
 OBJ=$(SRC:.c=.o)
 EXEC=graviter

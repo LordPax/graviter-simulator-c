@@ -35,6 +35,7 @@ void Spawn_Planete(Planete *p, int nb, SDL_Renderer *rende);
 void Update_Planete(Planete *pThis, Planete *p, int nb);
 void limitFps(unsigned int limit);
 void Graviter_Planete(Planete *pThis, Planete *p);
+void eventFunc(SDL_bool *cont, SDL_Event *event, _Bool *pause);
 //void cercle(Planete *p, int coul);
 
 #endif

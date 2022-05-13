@@ -40,10 +40,10 @@ int main(int argc, char **argv) {
         SDL_Exit("Impossible de créer le rendue");
 
     frameLimit = SDL_GetTicks() + LIMIT;
-    
+
     while(cont) {
         limitFps(frameLimit);
-        
+
         SDL_Event event;
         SDL_SetRenderDrawColor(rende, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(rende);
@@ -58,42 +58,8 @@ int main(int argc, char **argv) {
         SDL_RenderPresent(rende);
         frameLimit = SDL_GetTicks() + LIMIT;
 
-        while(SDL_PollEvent(&event)) {
-            switch(event.type) {
-                case SDL_QUIT :
-                    cont = SDL_FALSE;
-                    printf("Graviter : Programme quiter\n");
-                    break;
-                case SDL_KEYDOWN :
-                    switch(event.key.keysym.sym) {
-                        case SDLK_ESCAPE :
-                            cont = SDL_FALSE;
-                            printf("Graviter : Programme quiter\n");
-                            break;
-
-                        case SDLK_a :
-                            pause = !pause;
-                            if (pause == false)
-                                printf("Graviter : Programme en pause\n");
-                            else
-                                printf("Graviter : Programme en route\n");
-                            break;
-
-                        // case SDLK_z :
-                        //     pause = !pause;
-                        //     break;
-
-                        // case SDLK_e :
-                        //     pause = !pause;
-                        //     break;
-
-                        // case SDLK_r :
-                        //     pause = !pause;
-                        //     break;
-                    }
-                    break;
-            }
-        }
+        while(SDL_PollEvent(&event))
+            eventFunc(&cont, &event, &pause);
     }
 
     free(planete);
