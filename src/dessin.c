@@ -1,11 +1,22 @@
 #include "../include/graviter.h"
 
+/**
+ * @brief exit from SDL
+ *
+ * @param msg message to show when exiting
+ */
 void SDL_Exit(const char *msg) {
     SDL_Log("Erreur : %s > %s\n", msg, SDL_GetError());
     SDL_Quit();
     exit(EXIT_FAILURE);
 }
 
+/**
+ * @brief draw a disc
+ *
+ * @param p planet data structure
+ * @param rende SDL render context
+ */
 void disque(Planete *p, SDL_Renderer *rende) {
     int d, y, x;
 
@@ -41,6 +52,11 @@ void ligneHorizontale(int x, int y, int w, SDL_Renderer *rende) {
     SDL_RenderFillRect(rende, &r);
 }
 
+/**
+ * @brief limit fps
+ *
+ * @param limit time of frame in ms
+ */
 void limitFps(unsigned int limit) {
     unsigned int ticks = SDL_GetTicks();
 
