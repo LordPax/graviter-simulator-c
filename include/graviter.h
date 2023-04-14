@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <time.h>
 
 #define W 900

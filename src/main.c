@@ -13,8 +13,10 @@ int main(int argc, char **argv) {
     unsigned int frameLimit;
     _Bool pause = true;
 
-    if (argc != 3)
-        exit(0);
+    if (argc != 3) {
+        printf("Usage : %s <nb planetes> <masse planetes>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
 
     nb = atoi(argv[1]);
     masse = atoi(argv[2]);
@@ -23,8 +25,10 @@ int main(int argc, char **argv) {
 
     Planete *planete = malloc(sizeof(Planete) * nb); // initialisation des planetes
 
-    if(planete == NULL)
-        exit(1);
+    if(planete == NULL) {
+        printf("Erreur d'allocation de memoire\n");
+        return EXIT_FAILURE;
+    }
 
     Init_Planete(planete, nb, masse);
 
@@ -67,5 +71,5 @@ int main(int argc, char **argv) {
     SDL_DestroyWindow(window);
     SDL_Quit();
 
-    return EXIT_SUCCESS; //return 0;
+    return EXIT_SUCCESS;
 }
