@@ -11,6 +11,8 @@ int main(int argc, char **argv) {
     int nb;
     int masse;
     unsigned int frameLimit;
+    int startTime;
+    int frameCount;
     _Bool pause = true;
 
     if (argc != 3) {
@@ -35,6 +37,9 @@ int main(int argc, char **argv) {
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) // lancer SDL
         SDL_Exit("Initiatlisation de la SDL");
 
+    if(TTF_Init() != 0)
+        SDL_Exit("Erreur d'initialisation de la SDL_ttf");
+
     window = SDL_CreateWindow("Graviter simulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, W, H, 0);
     if(window == NULL)
         SDL_Exit("Impossible de créer la fenètre");
@@ -44,6 +49,8 @@ int main(int argc, char **argv) {
         SDL_Exit("Impossible de créer le rendue");
 
     frameLimit = SDL_GetTicks() + LIMIT;
+    startTime = SDL_GetTicks();
+    frameCount = 0;
 
     while(cont) {
         limitFps(frameLimit);
@@ -53,6 +60,7 @@ int main(int argc, char **argv) {
         SDL_RenderClear(rende);
 
         Spawn_Planete(planete, nb, rende);
+        /* showFPS(&startTime, &frameCount, rende); */
 
         if(pause)
             for (int i = 0; i < nb; ++i)
@@ -69,6 +77,7 @@ int main(int argc, char **argv) {
     free(planete);
     SDL_DestroyRenderer(rende);
     SDL_DestroyWindow(window);
+    TTF_Quit();
     SDL_Quit();
 
     return EXIT_SUCCESS;

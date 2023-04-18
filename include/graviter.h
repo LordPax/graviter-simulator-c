@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <time.h>
 
 #define W 900
@@ -36,6 +37,8 @@ void Update_Planete(Planete *pThis, Planete *p, int nb);
 void limitFps(unsigned int limit);
 void Graviter_Planete(Planete *pThis, Planete *p);
 void eventFunc(SDL_bool *cont, SDL_Event *event, _Bool *pause);
+void drawText(int x, int y, char *text, SDL_Renderer *rende);
+void showFPS(int *startTime, int *frameCount, SDL_Renderer *rende);
 //void cercle(Planete *p, int coul);
 
 #endif

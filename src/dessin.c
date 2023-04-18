@@ -67,3 +67,33 @@ void limitFps(unsigned int limit) {
     else
         SDL_Delay(limit - ticks);
 }
+
+void drawText(int x, int y, char *text, SDL_Renderer *rende) {
+    SDL_Color color = { 0, 0, 0, 255 };
+    TTF_Font *font = TTF_OpenFont("ttf/Roboto-Regular.ttf", 25);
+    SDL_Surface *surface = TTF_RenderText_Solid(font, text, color);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(rende, surface);
+    SDL_Rect rect = {x, y, surface->w, surface->h};
+
+    SDL_RenderCopy(rende, texture, NULL, &rect);
+
+    TTF_CloseFont(font);
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
+}
+
+void showFPS(int *startTime, int *frameCount, SDL_Renderer *rende) {
+    char fps[20];
+    int currentTime = SDL_GetTicks();
+    int delta = currentTime - *startTime;
+    int avgFPS = *frameCount / (delta / 1000);
+
+    (*frameCount)++;
+    *startTime = currentTime;
+
+    if (delta >= 1000) {
+        sprintf(fps, "FPS : %d", avgFPS);
+        drawText(10, 10, fps, rende);
+        *frameCount = 0;
+    }
+}

@@ -1,5 +1,5 @@
 CC=gcc
-LIBS=$(shell sdl2-config --libs) -lm
+LIBS=$(shell sdl2-config --libs) -lSDL2_ttf -lm
 FLAGS=$(shell sdl2-config --cflags) -W -Wall -g
 SRC=$(wildcard src/*.c)
 OBJ=$(SRC:.c=.o)
