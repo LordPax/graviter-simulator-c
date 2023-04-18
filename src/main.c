@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     printf("Graviter : nombre de planetes : %d\n", nb);
     printf("Graviter : masse de chaque planete : %d\n", masse);
 
-    Planete *planete = malloc(sizeof(Planete) * nb); // initialisation des planetes
+    Planete *planete = malloc(sizeof(Planete) * nb);
 
     if(planete == NULL) {
         printf("Erreur d'allocation de memoire\n");
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 
     Init_Planete(planete, nb, masse);
 
-    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) // lancer SDL
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
         SDL_Exit("Initiatlisation de la SDL");
 
     if(TTF_Init() != 0)
