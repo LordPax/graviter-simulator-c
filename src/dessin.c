@@ -86,14 +86,15 @@ void showFPS(int *startTime, int *frameCount, SDL_Renderer *rende) {
     char fps[20];
     int currentTime = SDL_GetTicks();
     int delta = currentTime - *startTime;
-    int avgFPS = *frameCount / (delta / 1000);
 
     (*frameCount)++;
     *startTime = currentTime;
 
     if (delta >= 1000) {
+        int avgFPS = *frameCount / (delta / 1000);
         sprintf(fps, "FPS : %d", avgFPS);
-        drawText(10, 10, fps, rende);
+        printf("FPS : %d", avgFPS);
+        drawText(100, 10, fps, rende);
         *frameCount = 0;
     }
 }

@@ -60,6 +60,7 @@ int main(int argc, char **argv) {
         SDL_RenderClear(rende);
 
         Spawn_Planete(planete, nb, rende);
+        drawText(10, 10, "Graviter simulator", rende);
         /* showFPS(&startTime, &frameCount, rende); */
 
         if(pause)
