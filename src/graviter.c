@@ -1,4 +1,5 @@
 #include "../include/graviter.h"
+#include "../include/dessin.h"
 
 /**
  * @brief initialize data for every planet
@@ -7,20 +8,24 @@
  * @param nb number of planet
  * @param masse maximum mass of every planet
  */
-void Init_Planete(Planete *p, int nb, int masse) {
+Planete* Init_Planete(int nb, int masse) {
+    Planete *planete = malloc(sizeof(Planete) * nb);
     srand(time(NULL));
+
     for (int i = 0; i < nb; ++i){
-        p[i].x = rand() % W;
-        p[i].y = rand() % H;
-        p[i].vx = 0;
-        p[i].vy = 0;
-        p[i].dirx = 0;
-        p[i].diry = 0;
-        p[i].masse = rand() % masse;
-        p[i].r = sqrt(p[i].masse);
-        p[i].distCrit = p[i].r * sqrt(2);
-        p[i].exist = true;
+        planete[i].x = rand() % W;
+        planete[i].y = rand() % H;
+        planete[i].vx = 0;
+        planete[i].vy = 0;
+        planete[i].dirx = 0;
+        planete[i].diry = 0;
+        planete[i].masse = rand() % masse;
+        planete[i].r = sqrt(planete[i].masse);
+        planete[i].distCrit = planete[i].r * sqrt(2);
+        planete[i].exist = true;
     }
+
+    return planete;
 }
 
 /**
@@ -64,34 +69,35 @@ void Graviter_Planete(Planete *pThis, Planete *p) {
     int dy = p->y - pThis->y;
     int dist = dx * dx + dy * dy;
 
-    if(dist != 0) {
-        int dist2 = sqrt(dist);
-        if(dist2 < (pThis->r + p->r)) {
-            if(p->masse < pThis->masse) {
-                pThis->masse += p->masse;
-                pThis->x = (pThis->x * pThis->masse + p->x * p->masse) / (pThis->masse + p->masse);
-                pThis->y = (pThis->y * pThis->masse + p->y * p->masse) / (pThis->masse + p->masse);
-                pThis->vx = (pThis->masse * pThis->vx + p->masse + p->vx) / (pThis->masse + p->masse);
-                pThis->vy = (pThis->masse * pThis->vy + p->masse + p->vy) / (pThis->masse + p->masse);
+    if(dist == 0) return;
 
-                p->exist = false;
-                pThis->r = sqrt(pThis->masse);
-            }
+    int dist2 = sqrt(dist);
+
+    if(dist2 < (pThis->r + p->r)) {
+        if(p->masse < pThis->masse) {
+            pThis->masse += p->masse;
+            pThis->x = (pThis->x * pThis->masse + p->x * p->masse) / (pThis->masse + p->masse);
+            pThis->y = (pThis->y * pThis->masse + p->y * p->masse) / (pThis->masse + p->masse);
+            pThis->vx = (pThis->masse * pThis->vx + p->masse + p->vx) / (pThis->masse + p->masse);
+            pThis->vy = (pThis->masse * pThis->vy + p->masse + p->vy) / (pThis->masse + p->masse);
+
+            p->exist = false;
+            pThis->r = sqrt(pThis->masse);
         }
-        else {
-            float force = p->masse / dist;
-            float angle = atan2(p->y - pThis->y, p->x - pThis->x);
-            float dirx = force * cos(angle);
-            float diry = force * sin(angle);
-
-            pThis->dirx = dirx;
-            pThis->diry = diry;
-            pThis->angle = angle;
-
-            pThis->vx += dirx;
-            pThis->vy += diry;
-        }
+        return;
     }
+
+    float force = p->masse / dist;
+    float angle = atan2(p->y - pThis->y, p->x - pThis->x);
+    float dirx = force * cos(angle);
+    float diry = force * sin(angle);
+
+    pThis->dirx = dirx;
+    pThis->diry = diry;
+    pThis->angle = angle;
+
+    pThis->vx += dirx;
+    pThis->vy += diry;
 }
 
 /**
@@ -101,25 +107,19 @@ void Graviter_Planete(Planete *pThis, Planete *p) {
  * @param event sdl event to manage event
  * @param pause pause the "simulation"
  */
-void eventFunc(SDL_bool *cont, SDL_Event *event, _Bool *pause) {
+void eventFunc(SDL_bool *cont, SDL_Event *event, bool *pause) {
     switch(event->type) {
         case SDL_QUIT :
             *cont = SDL_FALSE;
-            printf("Graviter : Programme quiter\n");
             break;
         case SDL_KEYDOWN :
             switch(event->key.keysym.sym) {
                 case SDLK_ESCAPE :
                     *cont = SDL_FALSE;
-                    printf("Graviter : Programme quiter\n");
                     break;
 
-                case SDLK_a :
+                case SDLK_SPACE :
                     *pause = !(*pause);
-                    if (*pause == false)
-                        printf("Graviter : Programme en pause\n");
-                    else
-                        printf("Graviter : Programme en route\n");
                     break;
             }
             break;

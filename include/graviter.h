@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <math.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -12,11 +13,6 @@
 #define H 650
 #define LIMIT 16
 
-typedef enum exist {
-    false,
-    true
-} Exist;
-
 typedef struct Planete {
     float x, y; // coordonnée x, y
     float vx, vy; // vitesse vx, vy
@@ -25,20 +21,13 @@ typedef struct Planete {
     float distCrit; // distance critique de collision
     float dirx, diry; // direction en x, y
     float angle;
-    Exist exist;
+    bool exist;
 } Planete;
 
-void SDL_Exit(const char *msg);
-void Init_Planete(Planete *p, int nb, int masse);
-void disque(Planete *p, SDL_Renderer *rende);
-void ligneHorizontale(int x, int y, int w, SDL_Renderer *rende);
+Planete* Init_Planete(int nb, int masse);
 void Spawn_Planete(Planete *p, int nb, SDL_Renderer *rende);
 void Update_Planete(Planete *pThis, Planete *p, int nb);
-void limitFps(unsigned int limit);
 void Graviter_Planete(Planete *pThis, Planete *p);
-void eventFunc(SDL_bool *cont, SDL_Event *event, _Bool *pause);
-void drawText(int x, int y, char *text, SDL_Renderer *rende);
-void showFPS(int *startTime, int *frameCount, SDL_Renderer *rende);
-//void cercle(Planete *p, int coul);
+void eventFunc(SDL_bool *cont, SDL_Event *event, bool *pause);
 
 #endif

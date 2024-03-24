@@ -1,4 +1,6 @@
 #include "../include/graviter.h"
+#include "../include/utils.h"
+#include "../include/dessin.h"
 
 //libsdl-ttf2.0-0 libsdl-ttf2.0-dev
 //gcc *.c -o graviter $(sdl2-config --cflags --libs) -lSDL-ttf -lm
@@ -11,9 +13,9 @@ int main(int argc, char **argv) {
     int nb;
     int masse;
     unsigned int frameLimit;
-    int startTime;
+    Uint32 startTime;
     int frameCount;
-    _Bool pause = true;
+    bool pause = true;
 
     if (argc != 3) {
         printf("Usage : %s <nb planetes> <masse planetes>\n", argv[0]);
@@ -22,17 +24,10 @@ int main(int argc, char **argv) {
 
     nb = atoi(argv[1]);
     masse = atoi(argv[2]);
-    printf("Graviter : nombre de planetes : %d\n", nb);
-    printf("Graviter : masse de chaque planete : %d\n", masse);
 
-    Planete *planete = malloc(sizeof(Planete) * nb);
-
-    if(planete == NULL) {
-        printf("Erreur d'allocation de memoire\n");
-        return EXIT_FAILURE;
-    }
-
-    Init_Planete(planete, nb, masse);
+    Planete* planete = Init_Planete(nb, masse);
+    if(planete == NULL)
+        SDL_Exit("Erreur d'initialisation des planetes");
 
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
         SDL_Exit("Initiatlisation de la SDL");
@@ -61,7 +56,7 @@ int main(int argc, char **argv) {
 
         Spawn_Planete(planete, nb, rende);
         drawText(10, 10, "Graviter simulator", rende);
-        /* showFPS(&startTime, &frameCount, rende); */
+        show_fps(&frameCount, &startTime, rende);
 
         if(pause)
             for (int i = 0; i < nb; ++i)

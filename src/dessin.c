@@ -1,15 +1,6 @@
 #include "../include/graviter.h"
-
-/**
- * @brief exit from SDL
- *
- * @param msg message to show when exiting
- */
-void SDL_Exit(const char *msg) {
-    SDL_Log("Erreur : %s > %s\n", msg, SDL_GetError());
-    SDL_Quit();
-    exit(EXIT_FAILURE);
-}
+#include "../include/dessin.h"
+#include "../include/utils.h"
 
 /**
  * @brief draw a disc
@@ -53,21 +44,13 @@ void ligneHorizontale(int x, int y, int w, SDL_Renderer *rende) {
 }
 
 /**
- * @brief limit fps
+ * @brief write text on screen
  *
- * @param limit time of frame in ms
+ * @param x coordinate x
+ * @param y coordinate y
+ * @param text text to write
+ * @param rende SDL render context
  */
-void limitFps(unsigned int limit) {
-    unsigned int ticks = SDL_GetTicks();
-
-    if(limit < ticks)
-        return;
-    else if(limit > ticks + LIMIT)
-        SDL_Delay(LIMIT);
-    else
-        SDL_Delay(limit - ticks);
-}
-
 void drawText(int x, int y, char *text, SDL_Renderer *rende) {
     SDL_Color color = { 0, 0, 0, 255 };
     TTF_Font *font = TTF_OpenFont("ttf/Roboto-Regular.ttf", 25);
@@ -82,19 +65,17 @@ void drawText(int x, int y, char *text, SDL_Renderer *rende) {
     SDL_DestroyTexture(texture);
 }
 
-void showFPS(int *startTime, int *frameCount, SDL_Renderer *rende) {
-    char fps[20];
-    int currentTime = SDL_GetTicks();
-    int delta = currentTime - *startTime;
+/**
+ * @brief show fps
+ *
+ * @param frameCount count of frame
+ * @param lastFrameTime time of last frame
+ * @param rende SDL render context
+ */
+void show_fps(int* frameCount, Uint32* lastFrameTime, SDL_Renderer* rende) {
+    char fpsText[10];
+    int fps = calculate_fps(frameCount, lastFrameTime);
 
-    (*frameCount)++;
-    *startTime = currentTime;
-
-    if (delta >= 1000) {
-        int avgFPS = *frameCount / (delta / 1000);
-        sprintf(fps, "FPS : %d", avgFPS);
-        printf("FPS : %d", avgFPS);
-        drawText(100, 10, fps, rende);
-        *frameCount = 0;
-    }
+    sprintf(fpsText, "Fps: %d", fps);
+    drawText(10, 50, fpsText, rende);
 }
