@@ -1,4 +1,3 @@
-#include "../include/graviter.h"
 #include "../include/dessin.h"
 #include "../include/utils.h"
 
@@ -9,17 +8,15 @@
  * @param rende SDL render context
  */
 void disque(Planete *p, SDL_Renderer *rende) {
-    int d, y, x;
-
-    d = 3 - (2 * p->r);
-    x = 0;
-    y = p->r;
+    int d = 3 - (2 * p->r);
+    int x = 0;
+    int y = p->r;
 
     while (y >= x) {
-        ligneHorizontale(p->x - x, p->y - y, 2 * x + 1, rende);
-        ligneHorizontale(p->x - x, p->y + y, 2 * x + 1, rende);
-        ligneHorizontale(p->x - y, p->y - x, 2 * y + 1, rende);
-        ligneHorizontale(p->x - y, p->y + x, 2 * y + 1, rende);
+        ligne_horizontale(p->x - x, p->y - y, 2 * x + 1, rende);
+        ligne_horizontale(p->x - x, p->y + y, 2 * x + 1, rende);
+        ligne_horizontale(p->x - y, p->y - x, 2 * y + 1, rende);
+        ligne_horizontale(p->x - y, p->y + x, 2 * y + 1, rende);
 
         if (d < 0)
             d = d + (4 * x) + 6;
@@ -32,7 +29,7 @@ void disque(Planete *p, SDL_Renderer *rende) {
     }
 }
 
-void ligneHorizontale(int x, int y, int w, SDL_Renderer *rende) {
+void ligne_horizontale(int x, int y, int w, SDL_Renderer *rende) {
     SDL_Rect r;
 
     r.x = x;
@@ -51,7 +48,7 @@ void ligneHorizontale(int x, int y, int w, SDL_Renderer *rende) {
  * @param text text to write
  * @param rende SDL render context
  */
-void drawText(int x, int y, char *text, SDL_Renderer *rende) {
+void draw_text(int x, int y, char *text, SDL_Renderer *rende) {
     SDL_Color color = { 0, 0, 0, 255 };
     TTF_Font *font = TTF_OpenFont("ttf/Roboto-Regular.ttf", 25);
     SDL_Surface *surface = TTF_RenderText_Solid(font, text, color);
@@ -73,9 +70,26 @@ void drawText(int x, int y, char *text, SDL_Renderer *rende) {
  * @param rende SDL render context
  */
 void show_fps(int* frameCount, Uint32* lastFrameTime, SDL_Renderer* rende) {
-    char fpsText[10];
     int fps = calculate_fps(frameCount, lastFrameTime);
+    sdl_printf(rende, 10, 50, "Fps: %d", fps);
+}
 
-    sprintf(fpsText, "Fps: %d", fps);
-    drawText(10, 50, fpsText, rende);
+/**
+ * @brief a printf for SDL
+ *
+ * @param rende SDL render context
+ * @param x coordinate x
+ * @param y coordinate y
+ * @param fmt string format
+ */
+// TODO : refactor this function
+void sdl_printf(SDL_Renderer* rende, int x, int y, const char *fmt, ...) {
+    char fpsText[50];
+    va_list args;
+    va_start(args, fmt);
+
+    vsprintf(fpsText, fmt, args);
+    draw_text(x, y, fpsText, rende);
+
+    va_end(args);
 }

@@ -25,49 +25,47 @@ int main(int argc, char **argv) {
     nb = atoi(argv[1]);
     masse = atoi(argv[2]);
 
-    Planete* planete = Init_Planete(nb, masse);
+    Planete* planete = init_planete(nb, masse);
     if(planete == NULL)
-        SDL_Exit("Erreur d'initialisation des planetes");
+        sdl_exit("Erreur d'initialisation des planetes");
 
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
-        SDL_Exit("Initiatlisation de la SDL");
+        sdl_exit("Initiatlisation de la SDL");
 
     if(TTF_Init() != 0)
-        SDL_Exit("Erreur d'initialisation de la SDL_ttf");
+        sdl_exit("Erreur d'initialisation de la SDL_ttf");
 
     window = SDL_CreateWindow("Graviter simulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, W, H, 0);
     if(window == NULL)
-        SDL_Exit("Impossible de créer la fenètre");
+        sdl_exit("Impossible de créer la fenètre");
 
     rende = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
     if(rende == NULL)
-        SDL_Exit("Impossible de créer le rendue");
+        sdl_exit("Impossible de créer le rendue");
 
     frameLimit = SDL_GetTicks() + LIMIT;
     startTime = SDL_GetTicks();
     frameCount = 0;
 
     while(cont) {
-        limitFps(frameLimit);
+        limit_fps(frameLimit);
 
         SDL_Event event;
         SDL_SetRenderDrawColor(rende, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(rende);
 
-        Spawn_Planete(planete, nb, rende);
-        drawText(10, 10, "Graviter simulator", rende);
+        spawn_planete(planete, nb, rende);
+        sdl_printf(rende, 10, 10, "Graviter simulator %s", !pause ? "(pause)" : "");
         show_fps(&frameCount, &startTime, rende);
 
-        if(pause)
-            for (int i = 0; i < nb; ++i)
-                if(planete[i].exist)
-                    Update_Planete(&planete[i], planete, nb);
+        if (pause)
+            update_planete(planete, nb);
 
         SDL_RenderPresent(rende);
         frameLimit = SDL_GetTicks() + LIMIT;
 
         while(SDL_PollEvent(&event))
-            eventFunc(&cont, &event, &pause);
+            event_func(&cont, &event, &pause);
     }
 
     free(planete);

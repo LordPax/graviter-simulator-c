@@ -6,7 +6,7 @@
  *
  * @param msg message to show when exiting
  */
-void SDL_Exit(const char *msg) {
+void sdl_exit(const char *msg) {
     SDL_Log("Erreur : %s > %s\n", msg, SDL_GetError());
     SDL_Quit();
     exit(EXIT_FAILURE);
@@ -17,7 +17,7 @@ void SDL_Exit(const char *msg) {
  *
  * @param limit time of frame in ms
  */
-void limitFps(unsigned int limit) {
+void limit_fps(unsigned int limit) {
     unsigned int ticks = SDL_GetTicks();
 
     if(limit < ticks)

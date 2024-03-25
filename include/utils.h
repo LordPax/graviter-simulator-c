@@ -9,7 +9,7 @@
 #include <time.h>
 
 int calculate_fps(int* frameCount, Uint32* lastFrameTime);
-void limitFps(unsigned int limit);
-void SDL_Exit(const char *msg);
+void limit_fps(unsigned int limit);
+void sdl_exit(const char *msg);
 
 #endif
