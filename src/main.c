@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
     unsigned int frameLimit;
     Uint32 startTime;
     int frameCount;
-    bool pause = true;
+    bool pause = false;
 
     if (argc != 3) {
         printf("Usage : %s <nb planetes> <masse planetes>\n", argv[0]);
@@ -55,10 +55,10 @@ int main(int argc, char **argv) {
         SDL_RenderClear(rende);
 
         spawn_planete(planete, nb, rende);
-        sdl_printf(rende, 10, 10, "Graviter simulator %s", !pause ? "(pause)" : "");
+        sdl_printf(rende, 10, 10, "Graviter simulator %s", pause ? "(pause)" : "");
         show_fps(&frameCount, &startTime, rende);
 
-        if (pause)
+        if (!pause)
             update_planete(planete, nb);
 
         SDL_RenderPresent(rende);
