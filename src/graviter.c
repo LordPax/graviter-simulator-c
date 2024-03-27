@@ -7,7 +7,7 @@
  * @param event sdl event to manage event
  * @param pause pause the "simulation"
  */
-void event_func(SDL_bool *cont, SDL_Event *event, bool *pause) {
+void event_func(SDL_bool *cont, SDL_Event *event, bool *pause, Camera *cam) {
     switch(event->type) {
         case SDL_QUIT :
             *cont = SDL_FALSE;
@@ -23,5 +23,17 @@ void event_func(SDL_bool *cont, SDL_Event *event, bool *pause) {
                     break;
             }
             break;
+        case SDL_MOUSEMOTION :
+            if(event->button.button == SDL_BUTTON_LEFT) {
+                cam->x = event->motion.x;
+                cam->y = event->motion.y;
+                /* cam->vx = event->motion.xrel; */
+                /* cam->vy = event->motion.yrel; */
+            }
+            break;
+        /* case SDL_MOUSEBUTTONUP : */
+        /*     cam->vx = 0; */
+        /*     cam->vy = 0; */
+        /*     break; */
     }
 }

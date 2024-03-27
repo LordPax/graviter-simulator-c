@@ -8,6 +8,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <time.h>
+#include "graviter.h"
 
 typedef struct Planete {
     float x, y; // coordonnée x, y
@@ -21,7 +22,7 @@ typedef struct Planete {
 } Planete;
 
 Planete *init_planete(int nb, int masse);
-void spawn_planete(Planete *p, int nb, SDL_Renderer *rende);
+void spawn_planete(Planete *p, int nb, SDL_Renderer *rende, Camera *cam);
 void update_planete(Planete *p, int nb);
 void graviter_planete(Planete *pThis, Planete *p);
 

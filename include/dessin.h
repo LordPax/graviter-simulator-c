@@ -9,10 +9,19 @@
 #include <time.h>
 #include "planete.h"
 
-void disque(Planete *p, SDL_Renderer *rende);
-void ligne_horizontale(int x, int y, int w, SDL_Renderer *rende);
-void draw_text(int x, int y, char *text, SDL_Renderer *rende);
-void show_fps(int* frameCount, Uint32* lastFrameTime, SDL_Renderer* rende);
-void sdl_printf(SDL_Renderer* rende, int x, int y, const char *fmt, ...);
+typedef struct {
+    int r;
+    int g;
+    int b;
+    int a;
+    int len;
+    int fontSize;
+} TextConf;
+
+/* void disque(Planete *p, SDL_Renderer *rende); */
+void disque(int px, int py, int pr, SDL_Renderer *rende);
+void ligne_horizontale(SDL_Renderer *rende, int x, int y, int w);
+void draw_text(SDL_Renderer *rende, TextConf conf, int x, int y, char *text);
+void show_fps(SDL_Renderer* rende, int* frameCount, Uint32* lastFrameTime);
 
 #endif

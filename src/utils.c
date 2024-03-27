@@ -1,5 +1,6 @@
 #include "../include/graviter.h"
 #include "../include/utils.h"
+#include "../include/dessin.h"
 
 /**
  * @brief exit from SDL
@@ -51,3 +52,22 @@ int calculate_fps(int* frameCount, Uint32* lastFrameTime) {
     return fps;
 }
 
+/**
+ * @brief a printf for SDL
+ *
+ * @param rende SDL render context
+ * @param x coordinate x
+ * @param y coordinate y
+ * @param format format of string
+ */
+void sdl_printf(SDL_Renderer *rende, TextConf conf, int x, int y, const char *format, ...) {
+    char *buffer = malloc(conf.len * sizeof(char));
+    va_list args;
+
+    va_start(args, format);
+    vsprintf(buffer, format, args);
+    va_end(args);
+
+    draw_text(rende, conf, x, y, buffer);
+    free(buffer);
+}

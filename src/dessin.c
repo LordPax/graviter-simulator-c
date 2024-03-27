@@ -7,16 +7,16 @@
  * @param p planet data structure
  * @param rende SDL render context
  */
-void disque(Planete *p, SDL_Renderer *rende) {
-    int d = 3 - (2 * p->r);
+void disque(int px, int py, int pr, SDL_Renderer *rende) {
+    int d = 3 - (2 * pr);
     int x = 0;
-    int y = p->r;
+    int y = pr;
 
     while (y >= x) {
-        ligne_horizontale(p->x - x, p->y - y, 2 * x + 1, rende);
-        ligne_horizontale(p->x - x, p->y + y, 2 * x + 1, rende);
-        ligne_horizontale(p->x - y, p->y - x, 2 * y + 1, rende);
-        ligne_horizontale(p->x - y, p->y + x, 2 * y + 1, rende);
+        ligne_horizontale(rende, px - x, py - y, 2 * x + 1);
+        ligne_horizontale(rende, px - x, py + y, 2 * x + 1);
+        ligne_horizontale(rende, px - y, py - x, 2 * y + 1);
+        ligne_horizontale(rende, px - y, py + x, 2 * y + 1);
 
         if (d < 0)
             d = d + (4 * x) + 6;
@@ -29,7 +29,7 @@ void disque(Planete *p, SDL_Renderer *rende) {
     }
 }
 
-void ligne_horizontale(int x, int y, int w, SDL_Renderer *rende) {
+void ligne_horizontale(SDL_Renderer *rende, int x, int y, int w) {
     SDL_Rect r;
 
     r.x = x;
@@ -43,14 +43,15 @@ void ligne_horizontale(int x, int y, int w, SDL_Renderer *rende) {
 /**
  * @brief write text on screen
  *
+ * @param rende SDL render context
  * @param x coordinate x
  * @param y coordinate y
  * @param text text to write
- * @param rende SDL render context
+ * @param conf text configuration (r, g, b, a, len, fontSize)
  */
-void draw_text(int x, int y, char *text, SDL_Renderer *rende) {
-    SDL_Color color = { 0, 0, 0, 255 };
-    TTF_Font *font = TTF_OpenFont("ttf/Roboto-Regular.ttf", 25);
+void draw_text(SDL_Renderer *rende, TextConf conf, int x, int y, char *text) {
+    SDL_Color color = { conf.r, conf.g, conf.b, conf.a };
+    TTF_Font *font = TTF_OpenFont("ttf/Roboto-Regular.ttf", conf.fontSize);
     SDL_Surface *surface = TTF_RenderText_Solid(font, text, color);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(rende, surface);
     SDL_Rect rect = {x, y, surface->w, surface->h};
@@ -65,31 +66,12 @@ void draw_text(int x, int y, char *text, SDL_Renderer *rende) {
 /**
  * @brief show fps
  *
+ * @param rende SDL render context
  * @param frameCount count of frame
  * @param lastFrameTime time of last frame
- * @param rende SDL render context
  */
-void show_fps(int* frameCount, Uint32* lastFrameTime, SDL_Renderer* rende) {
+void show_fps(SDL_Renderer* rende, int* frameCount, Uint32* lastFrameTime) {
     int fps = calculate_fps(frameCount, lastFrameTime);
-    sdl_printf(rende, 10, 50, "Fps: %d", fps);
-}
-
-/**
- * @brief a printf for SDL
- *
- * @param rende SDL render context
- * @param x coordinate x
- * @param y coordinate y
- * @param fmt string format
- */
-// TODO : refactor this function
-void sdl_printf(SDL_Renderer* rende, int x, int y, const char *fmt, ...) {
-    char fpsText[50];
-    va_list args;
-    va_start(args, fmt);
-
-    vsprintf(fpsText, fmt, args);
-    draw_text(x, y, fpsText, rende);
-
-    va_end(args);
+    TextConf conf = {0, 0, 0, 255, 100, 25};
+    sdl_printf(rende, conf, 10, 50, "Fps: %d", fps);
 }

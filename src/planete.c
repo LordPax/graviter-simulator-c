@@ -38,11 +38,14 @@ Planete *init_planete(int nb, int masse) {
  * @param nb number of every planet
  * @param rende render context
  */
-void spawn_planete(Planete *p, int nb, SDL_Renderer *rende) {
+void spawn_planete(Planete *p, int nb, SDL_Renderer *rende, Camera *cam) {
     SDL_SetRenderDrawColor(rende, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    int x, y;
     for (int i = 0; i < nb; ++i) {
         if(!p[i].exist) continue;
-        disque(&p[i], rende);
+        x = p[i].x + cam->x;
+        y = p[i].y + cam->y;
+        disque(x, y, p[i].r, rende);
     }
 }
 
