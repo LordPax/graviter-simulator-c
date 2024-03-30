@@ -7,7 +7,7 @@
  * @param p planet data structure
  * @param rende SDL render context
  */
-void disque(int px, int py, int pr, SDL_Renderer *rende) {
+void disque(SDL_Renderer *rende, int px, int py, int pr) {
     int d = 3 - (2 * pr);
     int x = 0;
     int y = pr;

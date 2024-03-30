@@ -11,7 +11,7 @@
  */
 Planete *init_planete(int nb, int masse) {
     Planete *planete = malloc(sizeof(Planete) * nb);
-    if(planete == NULL) return NULL;
+    if (planete == NULL) return NULL;
 
     srand(time(NULL));
 
@@ -45,7 +45,7 @@ void spawn_planete(Planete *p, int nb, SDL_Renderer *rende, Camera *cam) {
         if(!p[i].exist) continue;
         x = p[i].x + cam->x;
         y = p[i].y + cam->y;
-        disque(x, y, p[i].r, rende);
+        disque(rende, x, y, p[i].r);
     }
 }
 
@@ -57,7 +57,7 @@ void spawn_planete(Planete *p, int nb, SDL_Renderer *rende, Camera *cam) {
  */
 void update_planete(Planete *p, int nb) {
     for (int i = 0; i < nb; ++i) {
-        if(!p[i].exist) continue;
+        if (!p[i].exist) continue;
 
         for (int j = 0; j < nb; ++j) {
             if(!p[j].exist) continue;
@@ -80,12 +80,12 @@ void graviter_planete(Planete *pThis, Planete *p) {
     int dy = p->y - pThis->y;
     int dist = dx * dx + dy * dy;
 
-    if(dist == 0) return;
+    if (dist == 0) return;
 
     int dist2 = sqrt(dist);
 
-    if(dist2 < (pThis->r + p->r)) {
-        if(p->masse < pThis->masse) {
+    if (dist2 < (pThis->r + p->r)) {
+        if (p->masse < pThis->masse) {
             pThis->masse += p->masse;
             pThis->x = (pThis->x * pThis->masse + p->x * p->masse) / (pThis->masse + p->masse);
             pThis->y = (pThis->y * pThis->masse + p->y * p->masse) / (pThis->masse + p->masse);

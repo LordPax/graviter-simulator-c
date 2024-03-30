@@ -6,7 +6,7 @@
 //gcc *.c -o graviter $(sdl2-config --cflags --libs) -lSDL-ttf -lm
 
 int main(int argc, char **argv) {
-    Camera cam = {0, 0, 0, 0};
+    Camera cam = {0, 0};
     SDL_bool cont = SDL_TRUE;
     bool pause = false;
 
@@ -19,13 +19,13 @@ int main(int argc, char **argv) {
     int masse = atoi(argv[2]);
 
     Planete* planete = init_planete(nb, masse);
-    if(planete == NULL)
+    if (planete == NULL)
         sdl_exit("Erreur d'initialisation des planetes");
 
-    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
         sdl_exit("Initiatlisation de la SDL");
 
-    if(TTF_Init() != 0)
+    if (TTF_Init() != 0)
         sdl_exit("Erreur d'initialisation de la SDL_ttf");
 
     SDL_Window *window = SDL_CreateWindow(
@@ -34,19 +34,18 @@ int main(int argc, char **argv) {
         SDL_WINDOWPOS_CENTERED,
         W, H, 0
     );
-    if(window == NULL)
+    if (window == NULL)
         sdl_exit("Impossible de créer la fenètre");
 
     SDL_Renderer *rende = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-    if(rende == NULL)
+    if (rende == NULL)
         sdl_exit("Impossible de créer le rendue");
 
     unsigned int frameLimit = SDL_GetTicks() + LIMIT;
     Uint32 startTime = SDL_GetTicks();
     int frameCount = 0;
 
-    while(cont) {
-        printf("move x: %d, y: %d\n", cam.x, cam.y);
+    while (cont) {
         limit_fps(frameLimit);
 
         SDL_Event event;
@@ -64,7 +63,7 @@ int main(int argc, char **argv) {
         SDL_RenderPresent(rende);
         frameLimit = SDL_GetTicks() + LIMIT;
 
-        while(SDL_PollEvent(&event))
+        while (SDL_PollEvent(&event))
             event_func(&cont, &event, &pause, &cam);
     }
 

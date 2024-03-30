@@ -9,17 +9,15 @@
 #include <SDL2/SDL_ttf.h>
 #include <time.h>
 
-#define W 900
-#define H 650
-/* #define W 1920 */
-/* #define H 1080 */
+/* #define W 900 */
+/* #define H 650 */
+#define W 1920
+#define H 1080
 #define LIMIT 16
 
 typedef struct {
     int x;
     int y;
-    int vx;
-    int vy;
 } Camera;
 
 void event_func(SDL_bool *cont, SDL_Event *event, bool *pause, Camera *camera);

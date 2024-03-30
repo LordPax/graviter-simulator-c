@@ -10,7 +10,7 @@
 #include <time.h>
 #include "graviter.h"
 
-typedef struct Planete {
+typedef struct {
     float x, y; // coordonnée x, y
     float vx, vy; // vitesse vx, vy
     float r; // rayon de la planete

@@ -21,9 +21,9 @@ void sdl_exit(const char *msg) {
 void limit_fps(unsigned int limit) {
     unsigned int ticks = SDL_GetTicks();
 
-    if(limit < ticks)
+    if (limit < ticks)
         return;
-    else if(limit > ticks + LIMIT)
+    else if (limit > ticks + LIMIT)
         SDL_Delay(LIMIT);
     else
         SDL_Delay(limit - ticks);

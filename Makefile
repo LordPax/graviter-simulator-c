@@ -1,3 +1,7 @@
+# $@ ref cible
+# $< ref premiere dependance
+# $^ ref listes dependances
+
 CC=gcc
 # LIBS=$(shell sdl2-config --libs) -lSDL2_ttf -lm
 # FLAGS=$(shell sdl2-config --cflags) -W -Wall -g
@@ -18,9 +22,5 @@ $(EXEC) : $(OBJ)
 clean :
 	rm -rf src/*.o
 
-mrproper : clean
+cleanall : clean
 	rm -rf $(EXEC)
-
-# $@ ref cible
-# $< ref premiere dependance
-# $^ ref listes dependances
