@@ -1,11 +1,11 @@
 #include "../include/graviter.h"
 #include "../include/dessin.h"
 #include "../include/planete.h"
+#include "../include/utils.h"
 
 /**
  * @brief initialize data for every planet
  *
- * @param p planet data structure
  * @param nb number of planet
  * @param masse maximum mass of every planet
  */
@@ -32,20 +32,38 @@ Planete *init_planete(int nb, int masse) {
 }
 
 /**
+ * @brief reinitialize data for every planet
+ *
+ * @param p array of planet
+ * @param nb max number of planet
+ * @param masse maximum mass of every planet
+ * @return new array of planet
+ */
+Planete *reinit_planete(Planete *p, int nb, int masse) {
+    free(p);
+    p = init_planete(nb, masse);
+    return p;
+}
+
+/**
  * @brief make graphical render of every planet
  *
  * @param p planet data structure
  * @param nb number of every planet
  * @param rende render context
  */
-void spawn_planete(Planete *p, int nb, SDL_Renderer *rende, Camera *cam) {
+void spawn_planete(Planete *p, int nb, SDL_Renderer *rende, Camera *cam, bool *show_info) {
     SDL_SetRenderDrawColor(rende, 0, 0, 0, SDL_ALPHA_OPAQUE);
     int x, y;
     for (int i = 0; i < nb; ++i) {
         if(!p[i].exist) continue;
+
         x = p[i].x + cam->x;
         y = p[i].y + cam->y;
         disque(rende, x, y, p[i].r);
+
+        if (*show_info)
+            show_planete_info(&p[i], cam, rende);
     }
 }
 
@@ -85,7 +103,7 @@ void graviter_planete(Planete *pThis, Planete *p) {
     int dist2 = sqrt(dist);
 
     if (dist2 < (pThis->r + p->r)) {
-        if (p->masse < pThis->masse) {
+        if (p->masse <= pThis->masse) {
             pThis->masse += p->masse;
             pThis->x = (pThis->x * pThis->masse + p->x * p->masse) / (pThis->masse + p->masse);
             pThis->y = (pThis->y * pThis->masse + p->y * p->masse) / (pThis->masse + p->masse);
@@ -109,4 +127,48 @@ void graviter_planete(Planete *pThis, Planete *p) {
 
     pThis->vx += dirx;
     pThis->vy += diry;
+}
+
+/**
+ * @brief count number of planet
+ *
+ * @param p array of planet
+ * @return number of planet
+ */
+int nb_planete(Planete *p, int total) {
+    int nb = 0;
+
+    for (int i = 0; i < total; ++i)
+        if (p[i].exist) nb++;
+
+    return nb;
+}
+
+/**
+ * @brief show number of planet
+ *
+ * @param rende context of sdl
+ * @param p array of planet
+ */
+void show_nb_planete(Planete *p, int total, SDL_Renderer *rende) {
+    int nb = nb_planete(p, total);
+    TextConf conf = {0, 0, 0, 255, 100, 25};
+    sdl_printf(rende, conf, 10, 100, "Nombre de planete : %d/%d", nb, total);
+}
+
+/**
+ * @brief show information of a planet
+ *
+ * @param p planet to show
+ * @param cam camera position
+ * @param rende sdl render context
+ */
+void show_planete_info(Planete *p, Camera *cam, SDL_Renderer *rende) {
+    TextConf conf = {0, 0, 0, 255, 100, 10};
+    int x = p->x + p->r + cam->x + 10;
+    int y = p->y + cam->y;
+
+    sdl_printf(rende, conf, x, y, "masse : %.2f", p->masse);
+    sdl_printf(rende, conf, x, y + 10, "x : %.2f", p->x);
+    sdl_printf(rende, conf, x, y + 20, "y : %.2f", p->y);
 }

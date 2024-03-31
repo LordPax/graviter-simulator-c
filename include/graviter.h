@@ -20,6 +20,4 @@ typedef struct {
     int y;
 } Camera;
 
-void event_func(SDL_bool *cont, SDL_Event *event, bool *pause, Camera *camera);
-
 #endif
