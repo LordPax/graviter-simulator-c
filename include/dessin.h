@@ -21,6 +21,6 @@ typedef struct {
 void disque(SDL_Renderer *rende, int px, int py, int pr);
 void ligne_horizontale(SDL_Renderer *rende, int x, int y, int w);
 void draw_text(SDL_Renderer *rende, TextConf conf, int x, int y, char *text);
-void show_fps(SDL_Renderer* rende, int* frameCount, Uint32* lastFrameTime);
+void show_fps(SDL_Renderer* rende, int x, int y, int* frameCount, Uint32* lastFrameTime);
 
 #endif

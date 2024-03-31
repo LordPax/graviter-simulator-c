@@ -70,8 +70,8 @@ void draw_text(SDL_Renderer *rende, TextConf conf, int x, int y, char *text) {
  * @param frameCount count of frame
  * @param lastFrameTime time of last frame
  */
-void show_fps(SDL_Renderer* rende, int* frameCount, Uint32* lastFrameTime) {
+void show_fps(SDL_Renderer* rende, int x, int y, int* frameCount, Uint32* lastFrameTime) {
     int fps = calculate_fps(frameCount, lastFrameTime);
-    TextConf conf = {0, 0, 0, 255, 100, 25};
-    sdl_printf(rende, conf, 10, 50, "Fps: %d", fps);
+    TextConf conf = {255, 255, 255, 255, 100, 25};
+    sdl_printf(rende, conf, x, y, "Fps: %d", fps);
 }

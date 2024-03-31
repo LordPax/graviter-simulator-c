@@ -27,7 +27,7 @@ void spawn_planete(Planete *p, int nb, SDL_Renderer *rende, Camera *cam, bool *s
 void update_planete(Planete *p, int nb);
 void graviter_planete(Planete *pThis, Planete *p);
 int nb_planete(Planete *p, int total);
-void show_nb_planete(Planete *p, int total, SDL_Renderer *rende);
+void show_nb_planete(Planete *p, int x, int y, int total, SDL_Renderer *rende);
 void show_planete_info(Planete *p, Camera *cam, SDL_Renderer *rende);
 
 #endif

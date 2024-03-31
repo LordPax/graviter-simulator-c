@@ -15,7 +15,7 @@ Planete *init_planete(int nb, int masse) {
 
     srand(time(NULL));
 
-    for (int i = 0; i < nb; ++i){
+    for (int i = 0; i < nb; ++i) {
         planete[i].x = rand() % W;
         planete[i].y = rand() % H;
         planete[i].vx = 0;
@@ -53,7 +53,7 @@ Planete *reinit_planete(Planete *p, int nb, int masse) {
  * @param rende render context
  */
 void spawn_planete(Planete *p, int nb, SDL_Renderer *rende, Camera *cam, bool *show_info) {
-    SDL_SetRenderDrawColor(rende, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(rende, 255, 255, 255, SDL_ALPHA_OPAQUE);
     int x, y;
     for (int i = 0; i < nb; ++i) {
         if(!p[i].exist) continue;
@@ -150,10 +150,10 @@ int nb_planete(Planete *p, int total) {
  * @param rende context of sdl
  * @param p array of planet
  */
-void show_nb_planete(Planete *p, int total, SDL_Renderer *rende) {
+void show_nb_planete(Planete *p, int x, int y, int total, SDL_Renderer *rende) {
     int nb = nb_planete(p, total);
-    TextConf conf = {0, 0, 0, 255, 100, 25};
-    sdl_printf(rende, conf, 10, 100, "Nombre de planete : %d/%d", nb, total);
+    TextConf conf = {255, 255, 255, 255, 100, 25};
+    sdl_printf(rende, conf, x, y, "Nombre de planete : %d/%d", nb, total);
 }
 
 /**
@@ -164,7 +164,7 @@ void show_nb_planete(Planete *p, int total, SDL_Renderer *rende) {
  * @param rende sdl render context
  */
 void show_planete_info(Planete *p, Camera *cam, SDL_Renderer *rende) {
-    TextConf conf = {0, 0, 0, 255, 100, 10};
+    TextConf conf = {255, 255, 255, 255, 100, 10};
     int x = p->x + p->r + cam->x + 10;
     int y = p->y + cam->y;
 

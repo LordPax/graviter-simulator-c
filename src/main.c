@@ -3,16 +3,6 @@
 #include "../include/dessin.h"
 #include "../include/planete.h"
 
-/* void event_func( */
-/*     SDL_bool *cont, */
-/*     SDL_Event *event, */
-/*     bool *pause, */
-/*     Camera *camera, */
-/*     Planete *planete, */
-/*     int nb, */
-/*     int masse */
-/* ); */
-
 /**
  * @brief manage event
  *
@@ -91,6 +81,7 @@ int main(int argc, char **argv) {
     SDL_bool cont = SDL_TRUE;
     bool pause = false;
     bool show_info = false;
+    int info_x = 10, info_y = 10;
 
     if (argc != 3) {
         printf("Usage : %s <nb planetes> <masse planetes>\n", argv[0]);
@@ -131,13 +122,14 @@ int main(int argc, char **argv) {
         limit_fps(frameLimit);
 
         SDL_Event event;
-        SDL_SetRenderDrawColor(rende, 255, 255, 255, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(rende, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(rende);
 
-        TextConf conf = {0, 0, 0, 255, 100, 25};
-        sdl_printf(rende, conf, 10, 10, "Graviter simulator %s", pause ? "(pause)" : "");
-        show_fps(rende, &frameCount, &startTime);
-        show_nb_planete(planete, nb, rende);
+        TextConf conf = {255, 255, 255, 255, 100, 25};
+        sdl_printf(rende, conf, info_x, info_y, "Graviter simulator %s", pause ? "(pause)" : "");
+        show_fps(rende, info_x, info_y + 25, &frameCount, &startTime);
+        show_nb_planete(planete, info_x, info_y + 50, nb, rende);
+        sdl_printf(rende, conf, info_x, info_y + 75, "Camera x: %d, y: %d", cam.x, cam.y);
         spawn_planete(planete, nb, rende, &cam, &show_info);
 
         if (!pause)
