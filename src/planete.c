@@ -103,16 +103,18 @@ void graviter_planete(Planete *pThis, Planete *p) {
     int dist2 = sqrt(dist);
 
     if (dist2 < (pThis->r + p->r)) {
-        if (p->masse <= pThis->masse) {
-            pThis->masse += p->masse;
-            pThis->x = (pThis->x * pThis->masse + p->x * p->masse) / (pThis->masse + p->masse);
-            pThis->y = (pThis->y * pThis->masse + p->y * p->masse) / (pThis->masse + p->masse);
-            pThis->vx = (pThis->masse * pThis->vx + p->masse + p->vx) / (pThis->masse + p->masse);
-            pThis->vy = (pThis->masse * pThis->vy + p->masse + p->vy) / (pThis->masse + p->masse);
+        if (p->masse > pThis->masse)
+            return;
 
-            p->exist = false;
-            pThis->r = sqrt(pThis->masse);
-        }
+        pThis->masse += p->masse;
+        pThis->x = (pThis->x * pThis->masse + p->x * p->masse) / (pThis->masse + p->masse);
+        pThis->y = (pThis->y * pThis->masse + p->y * p->masse) / (pThis->masse + p->masse);
+        pThis->vx = (pThis->masse * pThis->vx + p->masse + p->vx) / (pThis->masse + p->masse);
+        pThis->vy = (pThis->masse * pThis->vy + p->masse + p->vy) / (pThis->masse + p->masse);
+
+        p->exist = false;
+        pThis->r = sqrt(pThis->masse);
+
         return;
     }
 
